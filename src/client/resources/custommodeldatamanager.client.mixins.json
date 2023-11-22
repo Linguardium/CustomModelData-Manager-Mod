@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "mod.linguardium.cmdm.mixin.client",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "ModelLoaderMixin",
+    "ShowNbtMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

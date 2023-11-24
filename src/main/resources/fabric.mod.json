@@ -1,0 +1,42 @@
+{
+	"schemaVersion": 1,
+	"id": "custommodeldatamanager",
+	"version": "${version}",
+	"name": "CustomModelDataManager",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/custommodeldatamanager/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"mod.linguardium.cmdm.CustomModelDataManager"
+		],
+		"client": [
+			"mod.linguardium.cmdm.CustomModelDataManagerClient"
+		]
+	},
+	"mixins": [
+		"custommodeldatamanager.mixins.json",
+		{
+			"config": "custommodeldatamanager.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"accessWidener" : "cmdm.accesswidener",
+	"depends": {
+		"fabricloader": ">=0.14.24",
+		"minecraft": "~1.20.2",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

@@ -20,9 +20,5 @@ public class LuckPermsPermissionHandler implements PermissionHandler {
 
     @Override
     public void init() {
-        LuckPermsProvider.get().getNodeBuilderRegistry().forPermission().permission(PermissionHandler.CONFIG_GENERATE_NODE).build();
-        LuckPermsProvider.get().getNodeBuilderRegistry().forPermission().permission(PermissionHandler.CONFIG_GENERATE_NODE).build();
-        LuckPermsProvider.get().getNodeBuilderRegistry().forPermission().permission(PermissionHandler.CONFIG_GENERATE_NODE).build();
-        LuckPermsProvider.get().getNodeBuilderRegistry().forPermission().permission(PermissionHandler.CONFIG_GENERATE_NODE).build();
     }
 }

@@ -46,7 +46,7 @@ public class MenuGui extends SimpleGui {
             }
         };
     }
-    private <T> GuiElementInterface.ClickCallback handleActionClick(boolean lockable, Runnable action) {
+    private GuiElementInterface.ClickCallback handleActionClick(boolean lockable, Runnable action) {
         return (index, type, action1, gui) -> {
             if ((!lockable || !isLocked) && type.isLeft) {
                     action.run();

@@ -9,10 +9,10 @@ public class LuckPermsPermissionHandler implements PermissionHandler {
 
     public LuckPermsPermissionHandler() {
         LOGGER.info("Using LuckPerms permissions");
-        LOGGER.info("cmdm.builder provides item builder permissions");
-        LOGGER.info("cmdm.uniques provides global unique list modification");
-        LOGGER.info("cmdm.reload provides server config reload permissions");
-        LOGGER.info("cmdm.generate provides CMD texture list regeneration permissions");
+        LOGGER.info("{} provides item builder permissions",PermissionHandler.ITEM_BUILDER_NODE);
+        LOGGER.info("{}} provides global unique list modification",PermissionHandler.UNIQUE_ADDER_NODE);
+        LOGGER.info("{}} provides server config reload permissions",PermissionHandler.CONFIG_RELOAD_NODE);
+        LOGGER.info("{}} provides CMD texture list regeneration permissions",PermissionHandler.CONFIG_GENERATE_NODE);
     }
     public boolean hasPermission(ServerPlayerEntity player, String string) {
         return LuckPermsProvider.get().getPlayerAdapter(ServerPlayerEntity.class).getPermissionData(player).checkPermission(string).asBoolean();

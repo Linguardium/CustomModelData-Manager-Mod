@@ -69,11 +69,11 @@ public class Config {
                         Codec.INT.fieldOf("count").forGetter(Cost::count),
                         Codec.INT.fieldOf("levels").forGetter(Cost::levels)
                 ).apply(instance,Cost::new));
-    };
+    }
 
     public static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir().resolve("cmdm.json");
     public static final Path CONFIG_BACKUP_PATH = FabricLoader.getInstance().getConfigDir().resolve("cmdm.bak");
-    public static Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     private static Config INSTANCE;
     public static Config getInstance() {
@@ -83,6 +83,12 @@ public class Config {
             } catch (IOException e) {
                 INSTANCE = new Config(new Cost(Registries.ITEM.getId(Items.AIR),0,0),new HashMap<>(), new HashMap<>());
                 LOGGER.warn("Failed to load config.");
+                try {
+                    INSTANCE.save();
+                }catch (IOException ex) {
+                    LOGGER.warn("Also failed to save the config file...");
+                    LOGGER.warn(ex.getMessage());
+                }
             }
         }
         return INSTANCE;

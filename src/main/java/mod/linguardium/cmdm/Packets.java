@@ -1,6 +1,7 @@
 package mod.linguardium.cmdm;
 
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
+import mod.linguardium.cmdm.permission.PermissionHandler;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -19,11 +20,10 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static mod.linguardium.cmdm.CustomModelDataManager.LOGGER;
-import static mod.linguardium.cmdm.CustomModelDataManager.MODID;
+import static mod.linguardium.cmdm.CustomModelDataManager.*;
 
 public class Packets {
-    public static Identifier CONFIG_PACKET_ID = new Identifier(MODID, "config");
+    public static final Identifier CONFIG_PACKET_ID = new Identifier(MODID, "config");
     private static final Map<Identifier, ArrayList<Integer>> cmdHolder = new HashMap<>();
     private static Identifier thisItemListId = null;
     private static UUID updating = Util.NIL_UUID;
@@ -36,17 +36,11 @@ public class Packets {
         FINALIZE
 
     }
-    private static boolean hasOperatorPermissions(ServerPlayerEntity player, MinecraftServer server) {
-        return isOperator(player,server) || (server.isRemote() && server.isHost(player.getGameProfile()));
-    }
 
-    private static boolean isOperator(ServerPlayerEntity player, MinecraftServer server) {
-        return server != null && server.getPlayerManager().isOperator(player.getGameProfile());
-    }
     private static void sendSystemMessage(MinecraftServer server, Text message) {
         if (server != null) {
             server.getPlayerManager().broadcast(message, (p) -> {
-                if (isOperator(p,server)) return message;
+                if (server.getPlayerManager().isOperator(p.getGameProfile())) return message;
                 return null;
             }, false);
         }
@@ -146,6 +140,14 @@ public class Packets {
     public static void receivePacket(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler ignoredHandler, PacketByteBuf buf, PacketSender ignoredResponseSender) {
         PACKET_PHASE phase = buf.readEnumConstant(PACKET_PHASE.class);
         List<Integer> list;
+        if (!permissions.hasPermission(player, PermissionHandler.CONFIG_GENERATE_NODE)) {
+            if (phase.equals(PACKET_PHASE.INITIAL)) {
+                server.execute(() ->
+                    player.sendMessage(Text.literal("You do not have permission to generate configs").formatted(Formatting.RED))
+                );
+            }
+            return;
+        }
         switch (phase) {
             case INITIAL -> server.execute(()->initialPacket(player));
             case START_ITEM, ADD_ITEM -> {

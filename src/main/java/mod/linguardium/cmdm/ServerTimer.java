@@ -3,14 +3,14 @@ package mod.linguardium.cmdm;
 import java.util.ArrayList;
 
 public class ServerTimer {
-    public static ArrayList<Timer> timers = new ArrayList<>();
+    public static final ArrayList<Timer> timers = new ArrayList<>();
     public static void tick() {
         timers.removeIf(Timer::tick);
     }
     public static class Timer {
-        Runnable runner;
-        int timeLeft;
-        String identifier;
+        final Runnable runner;
+        public int timeLeft;
+        public final String identifier;
         Timer(String id, Runnable runner, int timeLeft) {
             this.identifier = id;
             this.runner=runner;
@@ -29,5 +29,5 @@ public class ServerTimer {
         public boolean equals(Object obj) {
             return (obj instanceof Timer timer && timer.identifier.equals(this.identifier)) || super.equals(obj);
         }
-    };
+    }
 }

@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 
 public class LoreGui extends SignGui {
     protected final SlotGuiInterface parent;
-    protected Consumer<List<Text>> closeCallback;
+    protected final Consumer<List<Text>> closeCallback;
     private static final Style LORE_STYLE = Style.EMPTY.withColor(Formatting.DARK_PURPLE).withItalic(true);
     /**
      * Constructs a new SignGui for the provided player

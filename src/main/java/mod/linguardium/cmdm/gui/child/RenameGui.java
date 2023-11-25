@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 
 public class RenameGui extends AnvilInputGui {
     protected final SlotGuiInterface parent;
-    protected Consumer<String> closeCallback;
+    protected final Consumer<String> closeCallback;
     public RenameGui(SlotGuiInterface parent, ServerPlayerEntity player, ItemStack displayItem, Consumer<String> onCloseCallback) {
         super(player,false);
         this.parent = parent;
@@ -32,7 +32,7 @@ public class RenameGui extends AnvilInputGui {
     @Override
     public void onClose() {
         parent.open();
-        closeCallback.accept(this.getInput());
+        closeCallback.accept(this.getInput().replace("ÿ","§"));
     }
 
 }

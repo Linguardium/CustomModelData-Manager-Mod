@@ -24,7 +24,7 @@ import static mod.linguardium.cmdm.CustomModelDataManager.LOGGER;
 
 public class AddUniqueGui extends ItemListGui{
     private UUID selectedPlayer = null;
-    private static UUID ALL_ONES = UUID.fromString("11111111-1111-1111-1111-111111111111");
+    private static final UUID ALL_ONES = UUID.fromString("11111111-1111-1111-1111-111111111111");
     public AddUniqueGui(SlotGuiInterface parent, ServerPlayerEntity player, ItemStack displayItem, Consumer<ItemStack> onCloseCallback) {
         super(parent, player, displayItem, onCloseCallback);
         this.setSlot(9*5+2,new GuiElementBuilder(Items.PLAYER_HEAD).setName(Text.literal("To Player List")).setCallback(c->{
@@ -35,7 +35,7 @@ public class AddUniqueGui extends ItemListGui{
     }
 
     @Override
-    protected void handleSelect(int index, ClickType type, SlotActionType action, SlotGuiInterface gui) {
+    protected void handleSelect(int index, ClickType type, SlotActionType action) {
         if (selectedPlayer == null) {
             if (this.getSlot(index).getItemStack().isEmpty()) return;
             if (type.isLeft) {
@@ -91,9 +91,16 @@ public class AddUniqueGui extends ItemListGui{
             playerList.addAll(Config.getInstance().getUniqueItems().keySet());
             playerList.remove(Util.NIL_UUID);
             playerList.remove(ALL_ONES);
-            playerList.stream().distinct().forEach(k->{
-                list.add(setUUID(new GuiElementBuilder(Items.PLAYER_HEAD).setName(nameOrUUID(k)).setLore(List.of(Text.literal(k.toString()))),k).setSkullOwner(new GameProfile(k,""),player.getServer()).asStack());
-            });
+            playerList.stream().distinct().forEach(k->
+                list.add(setUUID
+                        (new GuiElementBuilder(Items.PLAYER_HEAD)
+                            .setName(nameOrUUID(k))
+                            .setLore(List.of(Text.literal(k.toString())))
+                        ,k)
+                        .setSkullOwner(new GameProfile(k,""),player.getServer())
+                        .asStack()
+                    )
+            );
             setItemList(list);
             this.setTitle(Text.literal("Select Player"));
         }else {

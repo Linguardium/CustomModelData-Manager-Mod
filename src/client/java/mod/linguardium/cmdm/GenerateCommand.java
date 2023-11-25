@@ -1,40 +1,22 @@
 package mod.linguardium.cmdm;
 
-import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.context.CommandContext;
 import mod.linguardium.cmdm.client.model.ModelOverrideListAdditions;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
 
-import java.util.*;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 import static mod.linguardium.cmdm.C2SPackets.*;
 import static mod.linguardium.cmdm.CustomModelDataManager.LOGGER;
 import static mod.linguardium.cmdm.util.Helpers.CUSTOM_MODEL_DATA_MODELPROVIDER_KEY;
 
-public class GenerateCommand implements ClientCommandRegistrationCallback {
+public class GenerateCommand  {
 
-    @Override
-    public void register(CommandDispatcher<FabricClientCommandSource> dispatcher, CommandRegistryAccess registryAccess) {
-        dispatcher.register(
-                ClientCommandManager.literal("cmdm_generate").executes(this::command)
-        );
-    }
-
-    private int command(CommandContext<FabricClientCommandSource> context) {
-        MinecraftClient client = context.getSource().getClient();
-        client.reloadResources().thenRun(GenerateCommand::afterResourceReload);
-        return 0;
+    public static void generateConfigForConnectedServer() {
+        MinecraftClient.getInstance().reloadResources().thenRun(GenerateCommand::afterResourceReload);
     }
 
     private static void afterResourceReload() {
@@ -44,7 +26,7 @@ public class GenerateCommand implements ClientCommandRegistrationCallback {
             if (!CMDlist.isEmpty()) {
                 sendItemList(itemEntry.getKey().getValue(),CMDlist);
                 LOGGER.info("Completed "+itemEntry.getKey().getValue().toString());
-            };
+            }
         });
         sendFinalizeListsPacket();
     }

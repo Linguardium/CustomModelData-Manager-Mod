@@ -11,6 +11,7 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public abstract class ItemListGui extends SimpleGui {
     protected int currentLine = 0;
     protected ItemStack selected=ItemStack.EMPTY;
 
-    public ItemListGui(SlotGuiInterface parent, ServerPlayerEntity player, ItemStack displayItem, Consumer<ItemStack> onCloseCallback) {
+    public ItemListGui(@Nullable SlotGuiInterface parent, ServerPlayerEntity player, ItemStack displayItem, Consumer<ItemStack> onCloseCallback) {
         super(ScreenHandlerType.GENERIC_9X6, player, false);
         this.closeCallback=onCloseCallback;
         this.parent=parent;
@@ -67,7 +68,7 @@ public abstract class ItemListGui extends SimpleGui {
         if (newLine > max) newLine=max;
         if (newLine != currentLine) setSlots(newLine);
     }
-    protected void handleSelect(int index, ClickType type, SlotActionType action, SlotGuiInterface gui) {
+    protected void handleSelect(int index, ClickType type, SlotActionType action) {
         selected = this.getSlot(index).getItemStack();
         this.close();
     }
@@ -85,7 +86,9 @@ public abstract class ItemListGui extends SimpleGui {
 
     @Override
     public void onClose() {
-        parent.open();
+        if (parent!=null) {
+            parent.open();
+        }
         closeCallback.accept(selected);
     }
 }

@@ -2,30 +2,18 @@ package mod.linguardium.cmdm.gui.element;
 
 import eu.pb4.sgui.api.elements.GuiElement;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
-import eu.pb4.sgui.api.elements.GuiElementInterface;
 import eu.pb4.sgui.api.gui.GuiInterface;
-import eu.pb4.sgui.api.gui.SlotGuiInterface;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemStackSet;
 import net.minecraft.text.Text;
-import net.minecraft.text.TextContent;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
 import java.util.List;
 
 public class ItemHolderMenuOption extends GuiElement {
     ItemStack displayStack;
-    boolean shouldShowHeldItem = false;
-    public ItemHolderMenuOption(GuiElement element) {
-        super(element.getItemStack(),element.getGuiCallback());
-    }
-    public ItemHolderMenuOption(ItemStack stack, ClickCallback onClick) {
-        this (stack, true, onClick);
+    boolean shouldShowHeldItem;
 
-    }
-    public ItemHolderMenuOption(ItemStack stack, boolean showHeldItem, ClickCallback onClick) {
+    public ItemHolderMenuOption(ItemStack stack, boolean showHeldItem, ItemClickCallback onClick) {
         super(stack, onClick);
         this.shouldShowHeldItem=showHeldItem;
     }
@@ -55,7 +43,7 @@ public class ItemHolderMenuOption extends GuiElement {
         GuiElementBuilder builder = new GuiElementBuilder(item);
         if (name != null && !textIsEmpty(name)) builder.setName(name);
         if (lore != null && !lore.isEmpty()) builder.setLore(lore);
-        this.displayStack= builder.build().getItemStack();
+        this.setDisplayStack(builder.asStack());
     }
     public void setDisplayStack(ItemStack stack) {
         this.displayStack = stack.copy();

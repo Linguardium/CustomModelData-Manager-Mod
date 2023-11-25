@@ -3,9 +3,9 @@
 	"id": "custommodeldatamanager",
 	"version": "${version}",
 	"name": "CustomModelDataManager",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Unique user item interface with custom model data support",
 	"authors": [
-		"Me!"
+		"Linguardium"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
@@ -17,9 +17,6 @@
 	"entrypoints": {
 		"main": [
 			"mod.linguardium.cmdm.CustomModelDataManager"
-		],
-		"client": [
-			"mod.linguardium.cmdm.CustomModelDataManagerClient"
 		]
 	},
 	"mixins": [
@@ -37,6 +34,6 @@
 		"fabric-api": "*"
 	},
 	"suggests": {
-		"another-mod": "*"
+		"luckperms": "*"
 	}
 }
